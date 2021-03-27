@@ -31,6 +31,13 @@ limitations under the License.
 #include "tensorflow/core/platform/types.h"
 #include "tensorflow/core/protobuf/bfc_memory_map.pb.h"
 
+#include <fstream>
+#include <iostream>
+#include <chrono>
+#include <stdint.h>
+
+#define TF_BFC_MEM_TRACE
+
 namespace tensorflow {
 
 BFCAllocator::BFCAllocator(SubAllocator* sub_allocator, size_t total_memory,
@@ -205,6 +212,14 @@ void* BFCAllocator::AllocateRawInternalWithRetry(
   }
   void* r =
       AllocateRawInternal(unused_alignment, num_bytes, false, freed_by_count);
+
+#ifdef TF_BFC_MEM_TRACE
+  // JSON LEE: intrument for malloc.
+  std::fstream mem_info_log("mem-info.log", std::ios::in| std::ios::out| std::ios::app);
+  int64_t time_stamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+  mem_info_log << "MALLOC: " << r << ' ' << num_bytes << ' ' << time_stamp << '\n';
+#endif // TF_BFC_MEM_TRACE
+  
   if (r != nullptr) {
     return r;
   } else {
@@ -549,6 +564,13 @@ void BFCAllocator::DeallocateRaw(void* ptr) {
   VLOG(1) << "DeallocateRaw " << Name() << " "
           << (ptr ? RequestedSize(ptr) : 0);
   DeallocateRawInternal(ptr);
+
+#ifdef TF_BFC_MEM_TRACE
+  std::fstream mem_info_log("mem-info.log", std::ios::in| std::ios::out| std::ios::app);
+  int64_t time_stamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+  mem_info_log << "FREE: " << ptr << ' ' << time_stamp << '\n';
+#endif // TF_BFC_MEM_TRACE
+
   retry_helper_.NotifyDealloc();
 }
 
