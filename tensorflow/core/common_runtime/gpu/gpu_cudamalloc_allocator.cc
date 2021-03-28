@@ -31,7 +31,7 @@ limitations under the License.
 #include "tensorflow/core/platform/stream_executor.h"
 
 // FIXME: this instrument is useless!!!
-#define TF_GPU_MEM_TRACE
+//#define TF_GPU_MEM_TRACE
 
 namespace tensorflow {
 

@@ -33,6 +33,13 @@ limitations under the License.
 #include "tensorflow/core/platform/mem.h"
 #include "tensorflow/core/platform/types.h"
 
+#include <fstream>
+#include <iostream>
+#include <chrono>
+#include <stdint.h>
+
+#define TF_BFC_MEM_TRACE
+
 namespace tensorflow {
 
 // Forward declarations.  In particular, we forward declare protos so that their
@@ -66,7 +73,15 @@ class TensorBuffer : public core::RefCounted {
   /// NOTE(mrry): The `data()` method is not virtual for performance reasons.
   /// It can be called multiple times when the contents of a `Tensor` are
   /// accessed, and so making it non-virtual allows the body to be inlined.
-  void* data() const { return data_; }
+  void* data() const {
+#ifdef TF_BFC_MEM_TRACE
+  // JSON LEE: intrument for read.
+  std::fstream mem_info_log("mem-info.log", std::ios::in| std::ios::out| std::ios::app);
+  int64_t time_stamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+  mem_info_log << "READ: " << data_ << ' ' << time_stamp << '\n';
+#endif // TF_BFC_MEM_TRACE
+    return data_;
+  }
 
   /// \brief Size (in bytes) of the buffer.
   virtual size_t size() const = 0;

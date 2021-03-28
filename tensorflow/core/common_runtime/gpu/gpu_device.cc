@@ -33,6 +33,13 @@ limitations under the License.
 #include <tuple>
 #include <vector>
 
+#include <fstream>
+#include <iostream>
+#include <chrono>
+#include <stdint.h>
+#include <cuda.h>
+#include <cuda_runtime_api.h>
+
 #include "third_party/eigen3/unsupported/Eigen/CXX11/Tensor"
 #include "tensorflow/core/common_runtime/device_factory.h"
 #include "tensorflow/core/common_runtime/gpu/gpu_device.h"
@@ -159,6 +166,18 @@ class EigenGpuStreamDevice : public ::Eigen::StreamInterface {
       LogMemory::RecordRawAllocation(operation_, step_id_, num_bytes, ret,
                                      allocator_);
     }
+#if 0
+    // FIXME: useless
+    // TODO: JS-LEE, intrument the malloc behavior here!!!
+    int64_t time_stamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    std::cout << "MALLOC: " << ret << ' ' << num_bytes << ' ' << time_stamp << '\n';
+    size_t available_memory = 0, total_memory = 0, used_memory = 0;
+    cudaMemGetInfo(&available_memory, &total_memory);
+    used_memory = total_memory - available_memory;
+    std::cout << (double)(used_memory) / 1024.0 / 1024.0 << ' '
+        << (double)(available_memory) / 1024.0 / 1024.0 << ' '
+        << (double)(total_memory) / 1024.0 / 1024.0 << '\n';
+#endif
     return ret;
   }
   void deallocate(void* buffer) const override {
@@ -174,6 +193,19 @@ class EigenGpuStreamDevice : public ::Eigen::StreamInterface {
 #elif TENSORFLOW_USE_ROCM
     hipError_t err = hipStreamAddCallback(*stream_, asyncFree, afData, 0);
     CHECK_EQ(err, hipSuccess);
+#endif
+
+#if 0
+    // FIXME: useless
+    // TODO: JS-LEE, intrument the free behavior here!!!
+    int64_t time_stamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    std::cout << "FREE: " << buffer << ' ' << time_stamp << '\n';
+    size_t available_memory = 0, total_memory = 0, used_memory = 0;
+    cudaMemGetInfo(&available_memory, &total_memory);
+    used_memory = total_memory - available_memory;
+    std::cout << (double)(used_memory) / 1024.0 / 1024.0 << ' '
+        << (double)(available_memory) / 1024.0 / 1024.0 << ' '
+        << (double)(total_memory) / 1024.0 / 1024.0 << '\n';
 #endif
   }
 

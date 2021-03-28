@@ -16,6 +16,10 @@ limitations under the License.
 #include "tensorflow/core/util/tensor_slice_writer.h"
 
 #include <utility>
+#include <fstream>
+#include <iostream>
+#include <chrono>
+#include <stdint.h>
 
 #include "tensorflow/core/framework/versions.pb.h"
 #include "tensorflow/core/lib/core/errors.h"
@@ -188,6 +192,15 @@ Status TensorSliceWriter::SaveData(const tstring* data, int64 num_elements,
         "Tensor slice is too large to serialize (conservative estimate: ",
         size_bound, " bytes)");
   }
+
+#if 0
+  // FIXME: useless
+  // TODO: JSON LEE, intrument write here!!!
+  std::fstream mem_info_log("mem-info.log", std::ios::in| std::ios::out| std::ios::app);
+  int64_t time_stamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+  mem_info_log << "WRITE: " << data << ' ' << time_stamp << '\n';
+#endif
+
   Fill(data, num_elements, ss->mutable_data());
   DCHECK_GE(ss->ByteSize(), 0);
   DCHECK_LE(ss->ByteSize(), size_bound);
