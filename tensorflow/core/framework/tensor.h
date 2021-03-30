@@ -65,7 +65,14 @@ Status MaybeMoveSliceToElement(Tensor* parent, Tensor* element, int64 index);
 /// Interface to access the raw ref-counted data buffer.
 class TensorBuffer : public core::RefCounted {
  public:
-  explicit TensorBuffer(void* data_ptr) : data_(data_ptr) {}
+  explicit TensorBuffer(void* data_ptr) : data_(data_ptr) {
+#ifdef TF_BFC_MEM_TRACE
+    // JSON LEE: intrument for read.
+    std::fstream mem_info_log("mem-info.log", std::ios::in| std::ios::out| std::ios::app);
+    int64_t time_stamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    mem_info_log << "READ: " << data_ptr << ' ' << time_stamp << '\n';
+#endif // TF_BFC_MEM_TRACE
+  }
   ~TensorBuffer() override {}
 
   /// \brief data() points to a memory region of size() bytes.
@@ -75,10 +82,10 @@ class TensorBuffer : public core::RefCounted {
   /// accessed, and so making it non-virtual allows the body to be inlined.
   void* data() const {
 #ifdef TF_BFC_MEM_TRACE
-  // JSON LEE: intrument for read.
-  std::fstream mem_info_log("mem-info.log", std::ios::in| std::ios::out| std::ios::app);
-  int64_t time_stamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-  mem_info_log << "READ: " << data_ << ' ' << time_stamp << '\n';
+    // JSON LEE: intrument for read / write.
+    std::fstream mem_info_log("mem-info.log", std::ios::in| std::ios::out| std::ios::app);
+    int64_t time_stamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    mem_info_log << "READ-WRITE: " << data_ << ' ' << time_stamp << '\n';
 #endif // TF_BFC_MEM_TRACE
     return data_;
   }

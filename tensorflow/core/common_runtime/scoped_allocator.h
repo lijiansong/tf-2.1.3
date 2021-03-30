@@ -69,6 +69,8 @@ class ScopedAllocator {
   void* AllocateRaw(int32 field_index, size_t num_bytes) LOCKS_EXCLUDED(mu_);
   void DeallocateRaw(void* p) LOCKS_EXCLUDED(mu_);
   Tensor backing_tensor_;
+  // NOTE: JSON LEE, TensorBuffer is the similar data structure 'Block' in Apache Singa.
+  // It is used to maintain the raw data block access.
   TensorBuffer* tbuf_;
   int32 id_;
   string name_;

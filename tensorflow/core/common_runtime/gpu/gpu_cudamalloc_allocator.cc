@@ -55,6 +55,7 @@ void* GPUcudaMallocAllocator::AllocateRaw(size_t alignment, size_t num_bytes) {
     return nullptr;
   }
 #ifdef TF_GPU_MEM_TRACE
+  // FIXME: this instrument is useless!!!
   // JSON LEE: intrument for malloc.
   std::fstream mem_info_log("mem-info.log", std::ios::in| std::ios::out| std::ios::app);
   int64_t time_stamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
@@ -83,6 +84,7 @@ void GPUcudaMallocAllocator::DeallocateRaw(void* ptr) {
     LOG(ERROR) << "cuMemFree failed to free " << ptr;
   }
 #ifdef TF_GPU_MEM_TRACE
+  // FIXME: this instrument is useless!!!
   // JSON LEE: intrument for free.
   std::fstream mem_info_log("mem-info.log", std::ios::in| std::ios::out| std::ios::app);
   int64_t time_stamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
