@@ -169,7 +169,7 @@ class EigenGpuStreamDevice : public ::Eigen::StreamInterface {
 #if 0
     // FIXME: useless
     // TODO: JS-LEE, intrument the malloc behavior here!!!
-    int64_t time_stamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    int64_t time_stamp = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     std::cout << "MALLOC: " << ret << ' ' << num_bytes << ' ' << time_stamp << '\n';
     size_t available_memory = 0, total_memory = 0, used_memory = 0;
     cudaMemGetInfo(&available_memory, &total_memory);
@@ -198,7 +198,7 @@ class EigenGpuStreamDevice : public ::Eigen::StreamInterface {
 #if 0
     // FIXME: useless
     // TODO: JS-LEE, intrument the free behavior here!!!
-    int64_t time_stamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    int64_t time_stamp = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     std::cout << "FREE: " << buffer << ' ' << time_stamp << '\n';
     size_t available_memory = 0, total_memory = 0, used_memory = 0;
     cudaMemGetInfo(&available_memory, &total_memory);

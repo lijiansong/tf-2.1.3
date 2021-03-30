@@ -216,7 +216,7 @@ void* BFCAllocator::AllocateRawInternalWithRetry(
 #ifdef TF_BFC_MEM_TRACE
   // JSON LEE: intrument for malloc.
   std::fstream mem_info_log("mem-info.log", std::ios::in| std::ios::out| std::ios::app);
-  int64_t time_stamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+  int64_t time_stamp = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
   mem_info_log << "MALLOC: " << r << ' ' << num_bytes << ' ' << time_stamp << '\n';
 #endif // TF_BFC_MEM_TRACE
   
@@ -567,7 +567,7 @@ void BFCAllocator::DeallocateRaw(void* ptr) {
 
 #ifdef TF_BFC_MEM_TRACE
   std::fstream mem_info_log("mem-info.log", std::ios::in| std::ios::out| std::ios::app);
-  int64_t time_stamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+  int64_t time_stamp = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
   mem_info_log << "FREE: " << ptr << ' ' << time_stamp << '\n';
 #endif // TF_BFC_MEM_TRACE
 

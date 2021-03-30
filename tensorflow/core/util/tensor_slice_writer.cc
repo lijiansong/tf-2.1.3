@@ -197,7 +197,7 @@ Status TensorSliceWriter::SaveData(const tstring* data, int64 num_elements,
   // FIXME: useless
   // TODO: JSON LEE, intrument write here!!!
   std::fstream mem_info_log("mem-info.log", std::ios::in| std::ios::out| std::ios::app);
-  int64_t time_stamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+  int64_t time_stamp = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
   mem_info_log << "WRITE: " << data << ' ' << time_stamp << '\n';
 #endif
 

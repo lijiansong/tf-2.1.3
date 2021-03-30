@@ -58,7 +58,7 @@ void* GPUcudaMallocAllocator::AllocateRaw(size_t alignment, size_t num_bytes) {
   // FIXME: this instrument is useless!!!
   // JSON LEE: intrument for malloc.
   std::fstream mem_info_log("mem-info.log", std::ios::in| std::ios::out| std::ios::app);
-  int64_t time_stamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+  int64_t time_stamp = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
   mem_info_log << "MALLOC: " << rv << ' ' << num_bytes << ' ' << time_stamp << '\n';
   size_t available_memory = 0, total_memory = 0, used_memory = 0;
   cudaMemGetInfo(&available_memory, &total_memory);
@@ -87,7 +87,7 @@ void GPUcudaMallocAllocator::DeallocateRaw(void* ptr) {
   // FIXME: this instrument is useless!!!
   // JSON LEE: intrument for free.
   std::fstream mem_info_log("mem-info.log", std::ios::in| std::ios::out| std::ios::app);
-  int64_t time_stamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+  int64_t time_stamp = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
   mem_info_log << "FREE: " << ptr << ' ' << time_stamp << '\n';
   std::cout << "FREE: " << ptr << ' ' << time_stamp << '\n';
   size_t available_memory = 0, total_memory = 0, used_memory = 0;
