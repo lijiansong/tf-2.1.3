@@ -66,7 +66,7 @@ Status MaybeMoveSliceToElement(Tensor* parent, Tensor* element, int64 index);
 class TensorBuffer : public core::RefCounted {
  public:
   explicit TensorBuffer(void* data_ptr) : data_(data_ptr) {
-#ifdef TF_BFC_MEM_TRACE
+#if 0
     // JSON LEE: intrument for read.
     std::fstream mem_info_log("mem-info.log", std::ios::in| std::ios::out| std::ios::app);
     int64_t time_stamp = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
