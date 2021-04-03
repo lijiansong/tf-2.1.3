@@ -11,11 +11,11 @@ REFs:
 - https://zhuanlan.zhihu.com/p/30210438
 """
 
-def random_gen_dataset(num_points=5000, num_kinds_of_features=100):
+def random_gen_dataset(num_points=5000, num_kinds_of_features=50):
     label_set = ['label'+str(i) for i in range(num_kinds_of_features)]
     # Input data points: [[4.7 3.2 1.3 0.2], [4.6 3.1 1.5 0.2], ...]
     # Original iris shape: (150, 4).
-    x = np.random.randn(num_points, 50).astype(np.float32)
+    x = np.random.randn(num_points, 128).astype(np.float32)
     # Label info: [0, 0, 0, ..., 0, 1, 1, 1, ...,1, 2, 2, 2, ...,2]
     # Origin iris shape: (150)
     y = np.random.randint(num_kinds_of_features, size=num_points)
@@ -48,7 +48,7 @@ train_x, test_x, train_y, test_y, label_set = random_gen_dataset()
 k = 10
 
 # knn has no training process!!!
-def prediction(train_x, test_x, train_y, k, num_itreations=500):
+def prediction(train_x, test_x, train_y, k, num_itreations=20):
     # miliseconds
     print(datetime.now().timetz())
     time_list = []
@@ -57,6 +57,8 @@ def prediction(train_x, test_x, train_y, k, num_itreations=500):
     for i in range(num_itreations):
         print('==> iteration {}'.format(i))
         distances = tf.reduce_sum(tf.abs(tf.subtract(train_x, tf.expand_dims(test_x, axis =1))), axis=2)
+        # sleep 5 ms
+        #time.sleep(0.005)
         _, top_k_indices = tf.nn.top_k(tf.negative(distances), k=k)
         top_k_labels = tf.gather(train_y, top_k_indices)
         predictions_sum = tf.reduce_sum(top_k_labels, axis=1)
