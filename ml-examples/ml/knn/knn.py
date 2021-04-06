@@ -11,7 +11,7 @@ REFs:
 - https://zhuanlan.zhihu.com/p/30210438
 """
 
-def random_gen_dataset(num_points=5000, num_kinds_of_features=50):
+def random_gen_dataset(num_points=4096, num_kinds_of_features=128):
     label_set = ['label'+str(i) for i in range(num_kinds_of_features)]
     # Input data points: [[4.7 3.2 1.3 0.2], [4.6 3.1 1.5 0.2], ...]
     # Original iris shape: (150, 4).
@@ -45,7 +45,7 @@ def random_gen_dataset(num_points=5000, num_kinds_of_features=50):
     return train_x, test_x, train_y, test_y, label_set
 
 train_x, test_x, train_y, test_y, label_set = random_gen_dataset()
-k = 10
+k = 16
 
 # knn has no training process!!!
 def prediction(train_x, test_x, train_y, k, num_itreations=20):

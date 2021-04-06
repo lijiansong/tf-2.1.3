@@ -1,7 +1,7 @@
 import tensorflow as tf
 import numpy as np
 
-img_h, img_w = 224, 224
+img_h, img_w = 300, 300
 
 num_classes = 100 # 0 to 9 digits
 num_features = img_h*img_w # 28*28
@@ -9,7 +9,7 @@ num_features = img_h*img_w # 28*28
 # Training parameters.
 learning_rate = 0.01
 training_steps = 5
-batch_size = 256
+batch_size = 8192
 display_step = 1
 
 # Prepare MNIST data.

@@ -16,7 +16,7 @@ REFs:
 - <https://github.com/aymericdamien/TensorFlow-Examples>
 '''
 
-img_h, img_w = 32, 32
+img_h, img_w = 224, 224
 num_features = img_h*img_w
 # NOTE: boosted_trees.py, for now pruning is not supported with multi class!!!
 # So num_classes can only be binary class.
@@ -58,7 +58,7 @@ feature_columns = [tf.feature_column.numeric_column(key='x', shape=(num_features
 # GBDT parameters.
 num_batches_per_layer = 1000
 num_trees = 10
-max_depth = 4
+max_depth = 16
 
 gbdt_classifier = tf.estimator.BoostedTreesClassifier(
     n_batches_per_layer=num_batches_per_layer,
