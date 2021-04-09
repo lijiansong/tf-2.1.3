@@ -17,21 +17,21 @@ REFs: https://github.com/aymericdamien/TensorFlow-Examples
 
 # MNIST Dataset parameters.
 # data features (img shape: 28*28).
-img_h, img_w = 224, 224
+img_h, img_w = 300, 300
 num_features = img_h*img_w
 
 # Training parameters.
 learning_rate = 0.01
 training_steps = 5
-batch_size = 512
+batch_size = 4
 display_step = 1
 
 # Network Parameters
 # 1st layer num features.
-num_hidden_1 = 128
+num_hidden_1 = 3072
 #num_hidden_1 = 256
 # 2nd layer num features (the latent dim).
-num_hidden_2 = 64
+num_hidden_2 = 1024
 
 """
 # Prepare MNIST data.

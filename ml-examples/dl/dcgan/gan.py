@@ -20,15 +20,15 @@ REFs: https://github.com/aymericdamien/TensorFlow-Examples
 # data features (img shape: 28*28).
 #img_h, img_w = 28, 28
 #img_h, img_w = 32, 32
-img_h, img_w = 128, 128
-#img_h, img_w = 224, 224
+#img_h, img_w = 128, 128
+img_h, img_w = 224, 224
 num_features = img_h*img_w
 
 # Training parameters.
 lr_generator = 0.0002
 lr_discriminator = 0.0002
 training_steps = 5
-batch_size = 32
+batch_size = 24
 display_step = 1
 
 # Network parameters.

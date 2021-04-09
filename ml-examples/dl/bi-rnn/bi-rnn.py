@@ -19,13 +19,13 @@ REFs: https://github.com/aymericdamien/TensorFlow-Examples
 # total classes (0-9 digits).
 num_classes = 100
 # data features (img shape: 28*28).
-img_h, img_w = 128, 128
+img_h, img_w = 224, 224
 num_features = img_h*img_w
 
 # Training Parameters
 learning_rate = 0.001
 training_steps = 3
-batch_size = 256
+batch_size = 24
 display_step = 1
 
 # Network Parameters
@@ -33,7 +33,8 @@ display_step = 1
 num_input = img_h # number of sequences.
 timesteps = img_w # timesteps.
 #num_units = 32 # number of neurons for the LSTM layer.
-num_units = 256 # number of neurons for the LSTM layer.
+#num_units = 256 # number of neurons for the LSTM layer.
+num_units = 5120 # number of neurons for the LSTM layer.
 
 """
 # Prepare MNIST data.
