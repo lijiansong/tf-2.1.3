@@ -67,6 +67,17 @@ $ pip install /tmp/tensorflow_pkg/tensorflow-2.1.3-cp35-cp35m-linux_x86_64.whl
 ImportError: Could not import tensorflow. Do not import tensorflow from its source directory; change directory to outside the TensorFlow source tree, and relaunch your Python interpreter from there.
 ```
 
+**ERROR NOTES:**
+
+bfloat16 error build with python 3.6, checkout this issue: <https://github.com/tensorflow/tensorflow/issues/40688>
+
+- this mainly caused by numpy! downgrade numpy with `pip install numpy==1.18.0`,
+- and remember execute `bazel clean`!!!
+
+Upgrade python from python3.5 into python3.6 with conda, `conda install python3.6`,
+reconfigure by `./configure`, and continues with normal building process. Note that, for different python version,
+`./bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg` will generate different pip wheel packages!
+
 ### REFs
 
 - <https://www.tensorflow.org/install/source>
