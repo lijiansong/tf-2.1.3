@@ -237,7 +237,9 @@ model.fit(x=data.train_x, y=data.train_y,
                      tensorboard_callback])
 end_time = int(round(time.time()*1000))
 throughput = args.epochs * args.batch_size / (end_time - start_time) * 1000
+print('\n')
 print('training throughput: {}'.format(throughput))
+#print('peak active bytes(MB): {}'.format(tf.experimental.get_peak_bytes_active(0)/1024.0/1024.0))
 #model.save_weights('./movie_reviews.h5', overwrite=True)
 
 #_, train_acc = model.evaluate(data.train_x, data.train_y)
