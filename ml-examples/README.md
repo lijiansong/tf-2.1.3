@@ -14,4 +14,5 @@
 - Bi-directional Recurrent Neural Network (bi-rnn)
 - Dynamic Recurrent Neural Network (dyn-rnn)
 - Long Short Term Memory Networks (lstm)
+- Bidirectional Encoder Representations from Transformers (bert)
 
