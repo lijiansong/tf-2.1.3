@@ -78,6 +78,21 @@ Upgrade python from python3.5 into python3.6 with conda, `conda install python3.
 reconfigure by `./configure`, and continues with normal building process. Note that, for different python version,
 `./bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg` will generate different pip wheel packages!
 
+**Ubuntu服务器重启驱动错误问题:**
+180服务器断电后无法重启，重启之后`nvidia-smi`工具无法使用。修复方案：
+```
+$ ls /usr/src
+```
+查看驱动版本，本机可以看到驱动版本为`nvidia-440.33.01`，
+安装dkms (Dynamic Kernel Module Support)
+
+```
+$ sudo apt-get install dkms
+$ sudo dkms install -m nvidia -v 440.33.01
+```
+安装完毕之后，`nvidia-smi`工具就可以正常使用了。
+
+
 ### REFs
 
 - <https://www.tensorflow.org/install/source>

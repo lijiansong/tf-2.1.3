@@ -21,7 +21,7 @@ import time
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--batch_size', type=int, default=512, help="Batch size. (Default 512)")
-parser.add_argument('--steps', type=int, default=3, help="Steps per epoch. (Default 3)")
+parser.add_argument('--steps', type=int, default=5, help="Steps per epoch. (Default 5)")
 parser.add_argument('--epochs', type=int, default=1, help="Training epochs. (Default 1)")
 parser.add_argument('--experts', type=int, default=8, help="Num of experts. (Default 8)")
 parser.set_defaults(lms=False)
